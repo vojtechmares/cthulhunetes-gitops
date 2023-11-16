@@ -13,3 +13,4 @@ spec:
     parameters:
       max_client_conn: "300"
       default_pool_size: "10"
+      ignore_startup_parameters: "search_path"
