@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: true-tetra-rw
+  namespace: postgres
+spec:
+  cluster:
+    name: moving-moose
+  instances: 3
+  type: rw
+  pgbouncer:
+    poolMode: session
+    parameters:
+      max_client_conn: "300"
+      default_pool_size: "10"
