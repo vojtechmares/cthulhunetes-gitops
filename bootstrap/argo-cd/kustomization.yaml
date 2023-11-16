@@ -4,3 +4,15 @@ namespace: argocd
 resources:
   - github.com/argoproj/argo-cd/manifests/ha/cluster-install?ref=v2.9.1
   - ./ingress.yaml
+configMapGenerator:
+  - name: argocd-cm
+    behavior: merge
+    literals:
+      - |
+        resource.exclusions: |
+          - apiGroups:
+            - cilium.io
+            kinds:
+            - CiliumIdentity
+            clusters:
+            - "*"
