@@ -1,0 +1,36 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: moving-moose
+  namespace: postgres
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.0
+  instances: 3
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+  superuserSecret:
+    name: superuser-credentials
+  storage:
+    storageClass: longhorn-static
+    size: 100Gi
+  resources:
+    limits:
+      cpu: 4000m
+      memory: 8Gi
+    requests:
+      cpu: 1000m
+      memory: 8Gi
+  ## Postgres configuration ##
+  # Enable 'postgres' superuser
+  enableSuperuserAccess: true
+  # Postgres instance parameters
+  postgresql:
+    parameters:
+      max_connections: "1000"
+  # High Availability configuration
+  minSyncReplicas: 1
+  maxSyncReplicas: 2
+  # Enable replication slots for HA in the cluster
+  replicationSlots:
+    highAvailability:
+      enabled: true
