@@ -15,10 +15,10 @@ spec:
     size: 100Gi
   resources:
     limits:
-      cpu: 4000m
+      cpu: "4"
       memory: 8Gi
     requests:
-      cpu: 1000m
+      cpu: "1"
       memory: 8Gi
   ## Postgres configuration ##
   # Enable 'postgres' superuser
