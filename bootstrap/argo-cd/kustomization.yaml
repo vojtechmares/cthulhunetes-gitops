@@ -9,7 +9,7 @@ configMapGenerator:
     behavior: merge
     literals:
       - |
-        resource.exclusions: |
+        resource.exclusions=
           - apiGroups:
             - cilium.io
             kinds:
