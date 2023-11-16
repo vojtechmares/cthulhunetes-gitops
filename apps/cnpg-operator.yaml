@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cnpg-operator
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  project: cluster-infrastructure
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    chart: cloudnative-pg
+    repoURL: https://cloudnative-pg.github.io/charts
+    targetRevision: 0.19.1
+    helm:
+      releaseName: cnpg-operator
+      valuesObject:
+        fullnameOverride: cnpg-operator
+        replicaCount: 2
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: cnpg-operator
