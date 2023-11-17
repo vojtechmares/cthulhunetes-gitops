@@ -20,6 +20,9 @@ spec:
       maxUnavailable: 1
   # PodTemplateSpec
   template:
+    metadata:
+      labels:
+        app: pooler
     spec:
       containers: [] # suppress error
       affinity:
@@ -28,6 +31,9 @@ spec:
             - weight: 100
               podAffinityTerm:
                 labelSelector:
-                  matchLabels:
-                    postgresql.cnpg.io/cluster: moving-moose
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - pooler
                 topologyKey: topology.kubernetes.io/zone
