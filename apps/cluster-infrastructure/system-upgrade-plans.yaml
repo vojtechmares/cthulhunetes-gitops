@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: system-upgrade-plans
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "20"
+spec:
+  project: cluster-infrastructure
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    path: manifests/system-upgrade/
+    repoURL: https://github.com/vojtechmares/cthulhunetes-gitops.git
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: system-upgrade
