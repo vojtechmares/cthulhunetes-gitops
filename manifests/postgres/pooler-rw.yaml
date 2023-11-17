@@ -14,3 +14,19 @@ spec:
       max_client_conn: "300"
       default_pool_size: "10"
       ignore_startup_parameters: "search_path"
+  deploymentStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  # PodTemplateSpec
+  template:
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    postgresql.cnpg.io/cluster: moving-moose
+                topologyKey: topology.kubernetes.io/zone
