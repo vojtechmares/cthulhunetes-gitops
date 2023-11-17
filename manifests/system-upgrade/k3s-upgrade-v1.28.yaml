@@ -16,6 +16,7 @@ spec:
       - {key: k3os.io/mode, operator: DoesNotExist}
       - {key: node-role.kubernetes.io/control-plane, operator: Exists}
   serviceAccountName: system-upgrade
+  jobActiveDeadlineSecs: 3600
   cordon: true
   drain:
     timeout: 900s # 15 minutes
@@ -23,5 +24,18 @@ spec:
     ignoreDaemonSets: true
     deleteLocalData: true
     skipWaitForDeleteTimeout: 180
+    # ! We ignore longhorn-manager and instance-manager pods
+    # ! because with storageclass longhorn-static which has only single replica, it is impossible to drain the node
+    # ! without violating the pod disruption budget.
+    podSelector:
+      matchExpressions:
+        - key: app
+          operator: NotIn
+          values:
+            - longhorn-manager
+        - key: longhorn.io/component
+          operator: NotIn
+          values:
+            - instance-manager
   upgrade:
     image: rancher/k3s-upgrade
