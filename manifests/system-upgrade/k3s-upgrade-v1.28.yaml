@@ -18,6 +18,7 @@ spec:
   serviceAccountName: system-upgrade
   cordon: true
   drain:
+    timeout: 900s # 15 minutes
     force: true
     ignoreDaemonSets: true
     deleteLocalData: true
