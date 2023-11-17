@@ -27,10 +27,10 @@ spec:
             ingressClassName: nginx
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-prod
-            host: console.minio.ops.mareshq.com
+            host: console.minio.cthulhunetes.net
             tls:
               - hosts:
-                  - console.minio.ops.mareshq.com
+                  - console.minio.ops.cthulhunetes.net
                 secretName: minio-console-ingress-tls
   destination:
     server: "https://kubernetes.default.svc"

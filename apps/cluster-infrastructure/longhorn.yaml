@@ -30,7 +30,7 @@ spec:
           ingressClassName: nginx
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt-prod
-          host: longhorn.ops.mareshq.com
+          host: longhorn.cthulhunetes.net
           tls: true
   destination:
     server: "https://kubernetes.default.svc"
