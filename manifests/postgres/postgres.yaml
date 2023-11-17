@@ -34,3 +34,7 @@ spec:
   replicationSlots:
     highAvailability:
       enabled: true
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: topology.kubernetes.io/zone # default: kubernetes.io/hostname
+    podAntiAffinityType: preferred
