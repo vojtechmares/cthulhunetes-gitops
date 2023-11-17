@@ -19,7 +19,7 @@ spec:
   jobActiveDeadlineSecs: 3600
   cordon: true
   drain:
-    timeout: 900s # 15 minutes
+    timeout: 900 # 15 minutes
     force: true
     ignoreDaemonSets: true
     deleteLocalData: true
