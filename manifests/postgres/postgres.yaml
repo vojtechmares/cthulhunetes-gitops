@@ -37,4 +37,4 @@ spec:
   affinity:
     enablePodAntiAffinity: true
     topologyKey: topology.kubernetes.io/zone # default: kubernetes.io/hostname
-    podAntiAffinityType: required
+    podAntiAffinityType: preferred
