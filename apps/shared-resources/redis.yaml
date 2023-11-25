@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "20"
+spec:
+  project: shared-resources
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    chart: redis-ha
+    repoURL: https://dandydeveloper.github.io/charts
+    targetRevision: 4.23.0
+    helm:
+      releaseName: redis
+      valuesObject:
+        replicas: 3
+        hardAntiAffinity: true
+        persistentVolume:
+          enabled: true
+          size: 10Gi
+          accessModes:
+            - ReadWriteOnce
+          storageClass: longhorn-static
+        redis:
+          resources:
+            limits:
+              cpu: 500m
+              memory: 4Gi
+            requests:
+              cpu: 200m
+              memory: 4Gi
+        haproxy:
+          enabled: true
+          replicas: 3
+          hardAntiAffinity: true
+          resources:
+            limits:
+              cpu: 400m
+              memory: 1Gi
+            requests:
+              cpu: 200m
+              memory: 1Gi
+        exporter:
+          enabled: true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: redis
