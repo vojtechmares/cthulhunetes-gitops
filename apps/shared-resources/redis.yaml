@@ -20,6 +20,7 @@ spec:
     helm:
       releaseName: redis
       valuesObject:
+        fullnameOverride: redis
         replicas: 3
         hardAntiAffinity: true
         persistentVolume:
