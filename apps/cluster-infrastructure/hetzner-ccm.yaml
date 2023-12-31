@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hetzner-ccm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  project: cluster-infrastructure
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    chart: hcloud-cloud-controller-manager
+    repoURL: https://charts.hetzner.cloud
+    targetRevision: 1.19.0
+    helm:
+      releaseName: hetzner-ccm
+      valuesObject:
+        nameOverride: hetzner-ccm
+        replicaCount: 2
+        # Since version 1.19.0, the CCM supports also Hetzner Robot (bare metal)
+        robot:
+          enabled: true
+        env:
+          HCLOUD_TOKEN:
+            valueFrom:
+              secretKeyRef:
+                name: hetzner-cloud-token
+                key: cloud-token
+          ROBOT_USER:
+            valueFrom:
+              secretKeyRef:
+                name: hetzner-robot-credentials
+                key: robot-user
+          ROBOT_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: hetzner-robot-credentials
+                key: robot-password
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: kube-system
