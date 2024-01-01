@@ -5,7 +5,7 @@
   ],
   "argocd": {
     "fileMatch": [
-      "apps/**/*.{yaml,yml}"
+      "apps\/.+\\.yaml$"
     ]
   }
 }
